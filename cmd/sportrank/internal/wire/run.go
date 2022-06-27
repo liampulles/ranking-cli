@@ -13,12 +13,12 @@ import (
 const (
 	// Note: Don't use iota here, we don't want these to change dynamically over time
 	// as external tools may depend on these values.
-	SuccessCode         = 0
-	InvalidFormat       = 1
-	CouldNotReadInput   = 2
-	CouldNotWriteOutput = 3
-	InternalError       = 4
-	FlagParseError      = 5
+	SuccessCode             = 0
+	InvalidFormatCode       = 1
+	CouldNotReadInputCode   = 2
+	CouldNotWriteOutputCode = 3
+	InternalErrorCode       = 4
+	FlagParseErrorCode      = 5
 )
 
 func Run(args []string, stdin io.Reader, stdout io.Writer) int {
@@ -26,7 +26,7 @@ func Run(args []string, stdin io.Reader, stdout io.Writer) int {
 	opts, err := evaluateArgs(args, stdin, stdout)
 	if err != nil {
 		if errors.Is(err, ErrArgParse) {
-			return FlagParseError
+			return FlagParseErrorCode
 		}
 
 		fmt.Fprintf(os.Stderr, "ERROR: %s\n", err)
@@ -48,12 +48,12 @@ func Run(args []string, stdin io.Reader, stdout io.Writer) int {
 
 func chooseExitCode(err error) int {
 	if errors.Is(err, ErrCouldNotOpenInput) {
-		return CouldNotReadInput
+		return CouldNotReadInputCode
 	}
 	if errors.Is(err, ErrCouldNotOpenOutput) {
-		return CouldNotWriteOutput
+		return CouldNotWriteOutputCode
 	}
-	return InternalError
+	return InternalErrorCode
 }
 
 // --- Argument related ---

@@ -95,7 +95,7 @@ func TestRun_GivenInvalidInput_ShouldReturnInvalidFormat(t *testing.T) {
 	actualCode := wire.Run(argsFixture, nil, os.Stdout)
 
 	// Verify results
-	assert.Equal(t, wire.InvalidFormat, actualCode)
+	assert.Equal(t, wire.InvalidFormatCode, actualCode)
 }
 
 func TestRun_GivenInputDoesNotExist_ShouldReturnCouldNotReadInput(t *testing.T) {
@@ -106,7 +106,7 @@ func TestRun_GivenInputDoesNotExist_ShouldReturnCouldNotReadInput(t *testing.T) 
 	actualCode := wire.Run(argsFixture, nil, os.Stdout)
 
 	// Verify results
-	assert.Equal(t, wire.CouldNotReadInput, actualCode)
+	assert.Equal(t, wire.CouldNotReadInputCode, actualCode)
 }
 
 func TestRun_GivenCouldNotOpenOutput_ShouldReturnCouldNotWriteOutput(t *testing.T) {
@@ -119,7 +119,7 @@ func TestRun_GivenCouldNotOpenOutput_ShouldReturnCouldNotWriteOutput(t *testing.
 	actualCode := wire.Run(argsFixture, os.Stdin, nil)
 
 	// Verify results
-	assert.Equal(t, wire.CouldNotWriteOutput, actualCode)
+	assert.Equal(t, wire.CouldNotWriteOutputCode, actualCode)
 }
 
 func TestRun_GivenInvalidArgs_ShouldReturnFlagParseError(t *testing.T) {
@@ -130,5 +130,5 @@ func TestRun_GivenInvalidArgs_ShouldReturnFlagParseError(t *testing.T) {
 	actualCode := wire.Run(argsFixture, os.Stdin, nil)
 
 	// Verify results
-	assert.Equal(t, wire.FlagParseError, actualCode)
+	assert.Equal(t, wire.FlagParseErrorCode, actualCode)
 }
