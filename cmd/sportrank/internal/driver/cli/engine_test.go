@@ -11,6 +11,8 @@ import (
 	"github.com/stretchr/testify/suite"
 )
 
+// TODO: Platform agnostic paths
+
 type EngineImplTestSuite struct {
 	suite.Suite
 	sut *cli.EngineImpl

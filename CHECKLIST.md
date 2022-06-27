@@ -12,3 +12,4 @@ Me:
 1. Nice help/usage message
 1. Code coverage
 1. CI/CD
+1. Platform agnostic

@@ -17,7 +17,7 @@ func TestCalculateRankings(t *testing.T) {
 		// Trivial case
 		{
 			[]league.GameResult{},
-			nil,
+			[]league.Ranking{},
 		},
 
 		// One game cases
@@ -31,15 +31,15 @@ func TestCalculateRankings(t *testing.T) {
 		{
 			[]league.GameResult{{"Alphonse", 4, "Barry", 4}},
 			[]league.Ranking{
-				{1, "Albatros", 1},
-				{1, "Baboon", 1},
+				{1, "Alphonse", 1},
+				{1, "Barry", 1},
 			},
 		},
 		{
 			[]league.GameResult{{"Barry", 4, "Alphonse", 4}},
 			[]league.Ranking{
-				{1, "Albatros", 1},
-				{1, "Baboon", 1},
+				{1, "Alphonse", 1},
+				{1, "Barry", 1},
 			},
 		},
 
