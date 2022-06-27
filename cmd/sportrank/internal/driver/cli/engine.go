@@ -1,4 +1,4 @@
-package wire
+package cli
 
 import (
 	"errors"
@@ -21,16 +21,29 @@ const (
 	FlagParseErrorCode      = 5
 )
 
-func Run(args []string, stdin io.Reader, stdout io.Writer) int {
+// Engine facilitates control of the system via a CLI.
+type Engine interface {
+	Run(args []string, stdin io.Reader, stdout io.Writer) int
+}
+
+type EngineImpl struct{}
+
+var _ Engine = &EngineImpl{}
+
+func NewEngineImpl() *EngineImpl {
+	return &EngineImpl{}
+}
+
+func (ei *EngineImpl) Run(args []string, stdin io.Reader, stdout io.Writer) int {
 	// Convert args to options.
-	opts, err := evaluateArgs(args, stdin, stdout)
+	opts, err := ei.evaluateArgs(args, stdin, stdout)
 	if err != nil {
-		if errors.Is(err, ErrArgParse) {
+		if errors.Is(err, errArgParse) {
 			return FlagParseErrorCode
 		}
 
 		fmt.Fprintf(os.Stderr, "ERROR: %s\n", err)
-		return chooseExitCode(err)
+		return ei.chooseExitCode(err)
 	}
 
 	// Make sure we close anything that needs it.
@@ -46,11 +59,11 @@ func Run(args []string, stdin io.Reader, stdout io.Writer) int {
 	return SuccessCode
 }
 
-func chooseExitCode(err error) int {
-	if errors.Is(err, ErrCouldNotOpenInput) {
+func (ei *EngineImpl) chooseExitCode(err error) int {
+	if errors.Is(err, errCouldNotOpenInput) {
 		return CouldNotReadInputCode
 	}
-	if errors.Is(err, ErrCouldNotOpenOutput) {
+	if errors.Is(err, errCouldNotOpenOutput) {
 		return CouldNotWriteOutputCode
 	}
 	return InternalErrorCode
@@ -60,9 +73,9 @@ func chooseExitCode(err error) int {
 
 // Defined argument related errors:
 var (
-	ErrArgParse           = errors.New("arg parsing error")
-	ErrCouldNotOpenInput  = errors.New("could not open input")
-	ErrCouldNotOpenOutput = errors.New("could not open output")
+	errArgParse           = errors.New("arg parsing error")
+	errCouldNotOpenInput  = errors.New("could not open input")
+	errCouldNotOpenOutput = errors.New("could not open output")
 )
 
 type options struct {
@@ -70,22 +83,22 @@ type options struct {
 	Output io.Writer
 }
 
-func evaluateArgs(args []string, stdin io.Reader, stdout io.Writer) (options, error) {
+func (ei *EngineImpl) evaluateArgs(args []string, stdin io.Reader, stdout io.Writer) (options, error) {
 	// Define and run the flag set.
 	flagSet := flag.NewFlagSet("sportrank", flag.ContinueOnError)
 	inputPtr := flagSet.String("i", "-", "Input file, or - for STDIN.")
 	outputPtr := flagSet.String("o", "-", "Output file, or - for STDOUT.")
 	if err := flagSet.Parse(args[1:]); err != nil {
-		return options{}, ErrArgParse
+		return options{}, errArgParse
 	}
 
 	// Get the appropriate input and output, given the args.
-	input, err := getFileSource(*inputPtr, stdin, os.O_RDONLY, 0777, ErrCouldNotOpenInput)
+	input, err := ei.getFileSource(*inputPtr, stdin, os.O_RDONLY, 0777, errCouldNotOpenInput)
 	if err != nil {
 		flagSet.Usage()
 		return options{}, err
 	}
-	output, err := getFileSource(*outputPtr, stdout, os.O_RDWR|os.O_CREATE, 0755, ErrCouldNotOpenOutput)
+	output, err := ei.getFileSource(*outputPtr, stdout, os.O_RDWR|os.O_CREATE, 0755, errCouldNotOpenOutput)
 	if err != nil {
 		flagSet.Usage()
 		return options{}, err
@@ -97,7 +110,7 @@ func evaluateArgs(args []string, stdin io.Reader, stdout io.Writer) (options, er
 	}, nil
 }
 
-func getFileSource(
+func (ei *EngineImpl) getFileSource(
 	arg string,
 	std interface{},
 	flag int,
