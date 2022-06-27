@@ -1,5 +1,7 @@
 package league
 
+// --- CalculateRankings related ---
+
 type GameResult struct {
 	TeamA  string
 	ScoreA int
@@ -13,10 +15,26 @@ type Ranking struct {
 	Points int
 }
 
+// Determine the ultimate ranking of all the teams in a league given game results.
 func CalculateRankings(gameResults []GameResult) []Ranking {
 	return nil
 }
 
-func Score(scoreA int, scoreB int) (pointsA int, pointsB int) {
-	return -1, -1
+// --- Score related ---
+
+const (
+	DrawPoints = 1
+	WinPoints  = 3
+	LosePoints = 0
+)
+
+// Assign points to A and B given their relative scores.
+func AssignPoints(scoreA int, scoreB int) (pointsA int, pointsB int) {
+	if scoreA == scoreB {
+		return DrawPoints, DrawPoints
+	}
+	if scoreA > scoreB {
+		return WinPoints, LosePoints
+	}
+	return LosePoints, WinPoints
 }

@@ -73,7 +73,7 @@ func TestCalculateRankings(t *testing.T) {
 	}
 }
 
-func TestScore(t *testing.T) {
+func TestAssignPoints(t *testing.T) {
 	// Setup fixture and expectations
 	cases := []struct {
 		scoreAFixture   int
@@ -105,7 +105,7 @@ func TestScore(t *testing.T) {
 	for i, c := range cases {
 		t.Run(fmt.Sprintf("Test case %d", i), func(t *testing.T) {
 			// Exercise SUT
-			pointsAActual, pointsBActual := league.Score(c.scoreAFixture, c.scoreBFixture)
+			pointsAActual, pointsBActual := league.AssignPoints(c.scoreAFixture, c.scoreBFixture)
 
 			// Verify results
 			assert.Equal(t, c.pointsAExpected, pointsAActual)
