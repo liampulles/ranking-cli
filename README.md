@@ -16,18 +16,15 @@
   <a href="https://github.com/liampulles/ranking-cli/releases">
     <img src="https://img.shields.io/github/release/liampulles/ranking-cli.svg" alt="[GitHub release]">
   </a>
-  <a href="https://travis-ci.com/liampulles/ranking-cli">
-    <img src="https://travis-ci.com/liampulles/ranking-cli.svg?branch=master" alt="[Build Status]">
+  <a href="https://app.travis-ci.com/github/liampulles/ranking-cli">
+    <img src="https://app.travis-ci.com/liampulles/ranking-cli.svg?branch=main" alt="[Build Status]">
   </a>
     <img alt="GitHub go.mod Go version" src="https://img.shields.io/github/go-mod/go-version/liampulles/ranking-cli">
   <a href="https://goreportcard.com/report/github.com/liampulles/ranking-cli">
     <img src="https://goreportcard.com/badge/github.com/liampulles/ranking-cli" alt="[Go Report Card]">
   </a>
-  <a href="https://codecov.io/gh/liampulles/ranking-cli">
-    <img src="https://codecov.io/gh/liampulles/ranking-cli/branch/master/graph/badge.svg" />
-  </a>
-  <a href="https://microbadger.com/images/lpulles/ranking-cli">
-    <img src="https://images.microbadger.com/badges/image/lpulles/ranking-cli.svg">
+  <a href="https://codecov.io/gh/liampulles/ranking-cli" > 
+    <img src="https://codecov.io/gh/liampulles/ranking-cli/branch/main/graph/badge.svg?token=RU6ycM2b3J"/> 
   </a>
   <a href="https://github.com/liampulles/ranking-cli/blob/master/LICENSE.md">
     <img src="https://img.shields.io/github/license/liampulles/ranking-cli.svg" alt="[License]">
