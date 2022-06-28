@@ -51,7 +51,7 @@ func (suite *RowIOGatewayImplTestSuite) TestCalculateRankingsInput_InvalidCases(
 		// "Side" issues
 		{
 			[]string{"TeamA, TeamB 1"},
-			malformedRowErrMsg("could not convert row 0 of input: first side: expected a space seperating team and score but found none"),
+			malformedRowErrMsg("could not convert row 0 of input: first side: expected a space separating team and score but found none"),
 		},
 		{
 			[]string{"TeamA 1, TeamB seven"},

@@ -14,7 +14,7 @@
 
 <p align="center">
   <a href="https://github.com/liampulles/ranking-cli/releases">
-    <img src="https://img.shields.io/github/release/liampulles/ranking-cli.svg" alt="[GitHub release]">
+    <img src="https://img.shields.io/github/v/release/liampulles/ranking-cli">
   </a>
   <a href="https://app.travis-ci.com/github/liampulles/ranking-cli">
     <img src="https://app.travis-ci.com/liampulles/ranking-cli.svg?branch=main" alt="[Build Status]">

@@ -102,7 +102,7 @@ func (riogi *RowIOGatewayImpl) convertInputRowSide(side string) (string, int, er
 	// Since the name of the team may contain the split string, we only want to split on the LAST occurence.
 	lastSpaceIdx := strings.LastIndex(cleaned, sideSplitStr)
 	if lastSpaceIdx < 0 {
-		return "", 0, fmt.Errorf("expected a space seperating team and score but found none: %w", ErrMalformedRow)
+		return "", 0, fmt.Errorf("expected a space separating team and score but found none: %w", ErrMalformedRow)
 	}
 
 	team := strings.TrimSpace(cleaned[:lastSpaceIdx])
