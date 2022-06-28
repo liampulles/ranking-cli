@@ -8,25 +8,26 @@ import (
 	"testing"
 
 	"github.com/liampulles/span-digital-ranking-cli/cmd/sportrank/internal/driver/cli"
+	"github.com/liampulles/span-digital-ranking-cli/cmd/sportrank/internal/wire"
 	"github.com/stretchr/testify/suite"
 )
 
 // TODO: Platform agnostic paths
 
-type EngineImplTestSuite struct {
+type EngineImplIntegrationTestSuite struct {
 	suite.Suite
 	sut *cli.EngineImpl
 }
 
-func TestEngineImplTestSuite(t *testing.T) {
-	suite.Run(t, new(EngineImplTestSuite))
+func TestEngineImplIntegrationTestSuite(t *testing.T) {
+	suite.Run(t, new(EngineImplIntegrationTestSuite))
 }
 
-func (suite *EngineImplTestSuite) SetupTest() {
-	suite.sut = cli.NewEngineImpl()
+func (suite *EngineImplIntegrationTestSuite) SetupTest() {
+	suite.sut = wire.Wire()
 }
 
-func (suite *EngineImplTestSuite) TestRun_GivenValidInput_ShouldReturnSuccess() {
+func (suite *EngineImplIntegrationTestSuite) TestRun_GivenValidInput_ShouldReturnSuccess() {
 	// Setup fixture
 	argsFixture := []string{"prog.name", "-i", "testdata/valid_input.txt"}
 	output := bytes.NewBufferString("")
@@ -36,7 +37,8 @@ func (suite *EngineImplTestSuite) TestRun_GivenValidInput_ShouldReturnSuccess() 
 2. Lions, 5 pts
 3. FC Awesome, 1 pt
 3. Snakes, 1 pt
-5. Grouches, 0 pts`
+5. Grouches, 0 pts
+`
 
 	// Exercise SUT
 	actualCode := suite.sut.Run(argsFixture, nil, output)
@@ -46,7 +48,7 @@ func (suite *EngineImplTestSuite) TestRun_GivenValidInput_ShouldReturnSuccess() 
 	suite.Equal(expectedOutput, output.String())
 }
 
-func (suite *EngineImplTestSuite) TestRun_GivenValidInputViaStdin_ShouldReturnSuccess() {
+func (suite *EngineImplIntegrationTestSuite) TestRun_GivenValidInputViaStdin_ShouldReturnSuccess() {
 	// Setup fixture
 	argsFixture := []string{"prog.name", "-i", "-"}
 	input, err := os.Open("testdata/valid_input.txt")
@@ -60,7 +62,8 @@ func (suite *EngineImplTestSuite) TestRun_GivenValidInputViaStdin_ShouldReturnSu
 2. Lions, 5 pts
 3. FC Awesome, 1 pt
 3. Snakes, 1 pt
-5. Grouches, 0 pts`
+5. Grouches, 0 pts
+`
 
 	// Exercise SUT
 	actualCode := suite.sut.Run(argsFixture, input, output)
@@ -70,7 +73,7 @@ func (suite *EngineImplTestSuite) TestRun_GivenValidInputViaStdin_ShouldReturnSu
 	suite.Equal(expectedOutput, output.String())
 }
 
-func (suite *EngineImplTestSuite) TestRun_GivenValidInputAndOutputViaFile_ShouldReturnSuccess() {
+func (suite *EngineImplIntegrationTestSuite) TestRun_GivenValidInputAndOutputViaFile_ShouldReturnSuccess() {
 	// Setup fixture
 	argsFixture := []string{"prog.name", "-i", "testdata/valid_input.txt", "-o", "testdata/temptestout.txt"}
 	// Setup expectations
@@ -78,7 +81,8 @@ func (suite *EngineImplTestSuite) TestRun_GivenValidInputAndOutputViaFile_Should
 2. Lions, 5 pts
 3. FC Awesome, 1 pt
 3. Snakes, 1 pt
-5. Grouches, 0 pts`
+5. Grouches, 0 pts
+`
 
 	// Exercise SUT
 	actualCode := suite.sut.Run(argsFixture, nil, os.Stdout)
@@ -90,7 +94,7 @@ func (suite *EngineImplTestSuite) TestRun_GivenValidInputAndOutputViaFile_Should
 	suite.Equal(expectedOutput, string(outputBytes))
 }
 
-func (suite *EngineImplTestSuite) TestRun_GivenInvalidInput_ShouldReturnInvalidFormat() {
+func (suite *EngineImplIntegrationTestSuite) TestRun_GivenInvalidInput_ShouldReturnInvalidFormat() {
 	// Setup fixture
 	argsFixture := []string{"prog.name", "-i", "testdata/invalid_input.txt"}
 
@@ -101,7 +105,7 @@ func (suite *EngineImplTestSuite) TestRun_GivenInvalidInput_ShouldReturnInvalidF
 	suite.Equal(cli.InvalidFormatCode, actualCode)
 }
 
-func (suite *EngineImplTestSuite) TestRun_GivenInputDoesNotExist_ShouldReturnCouldNotReadInput() {
+func (suite *EngineImplIntegrationTestSuite) TestRun_GivenInputDoesNotExist_ShouldReturnCouldNotReadInput() {
 	// Setup fixture
 	argsFixture := []string{"prog.name", "-i", "does.not.exist.txt"}
 
@@ -112,7 +116,7 @@ func (suite *EngineImplTestSuite) TestRun_GivenInputDoesNotExist_ShouldReturnCou
 	suite.Equal(cli.CouldNotReadInputCode, actualCode)
 }
 
-func (suite *EngineImplTestSuite) TestRun_GivenCouldNotOpenOutput_ShouldReturnCouldNotWriteOutput() {
+func (suite *EngineImplIntegrationTestSuite) TestRun_GivenCouldNotOpenOutput_ShouldReturnCouldNotWriteOutput() {
 	// Setup fixture
 	// -> We make use of the fact that you cannot
 	//    create a file with a name longer than 255 chars.
@@ -125,7 +129,7 @@ func (suite *EngineImplTestSuite) TestRun_GivenCouldNotOpenOutput_ShouldReturnCo
 	suite.Equal(cli.CouldNotWriteOutputCode, actualCode)
 }
 
-func (suite *EngineImplTestSuite) TestRun_GivenInvalidArgs_ShouldReturnFlagParseError() {
+func (suite *EngineImplIntegrationTestSuite) TestRun_GivenInvalidArgs_ShouldReturnFlagParseError() {
 	// Setup fixture
 	argsFixture := []string{"prog.name", "-b"}
 
