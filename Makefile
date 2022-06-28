@@ -17,11 +17,11 @@ build:
 	go build ./...
 install: build
 	go install ./...
-inspect: build
+inspect: build $(GOBIN)/golangci-lint
 	golangci-lint run --skip-files /mock_
 update:
 	go get -u ./...
-gen-mocks:
+gen-mocks: $(GOBIN)/mockery
 	mockery --all --case underscore --inpackage
 pre-commit: update clean coverage.txt inspect
 	go mod tidy
@@ -29,6 +29,10 @@ clean:
 	rm -f coverage.txt $(GOBIN)/sportrank
 
 # Needed tools
+$(GOBIN)/golangci-lint:
+	$(MAKE) install-tools
+$(GOBIN)/mockery:
+	$(MAKE) install-tools
 install-tools:
 	curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(GOBIN) v1.42.1
 	go install github.com/vektra/mockery/v2@latest
