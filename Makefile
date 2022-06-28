@@ -35,4 +35,5 @@ $(GOBIN)/mockery:
 	$(MAKE) install-tools
 install-tools:
 	curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(GOBIN) v1.42.1
+	rm -rf ./v1.42.1
 	go install github.com/vektra/mockery/v2@latest
