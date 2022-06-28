@@ -9,6 +9,7 @@
 <p align="center">
   <a href="#installation">Installation</a> •
   <a href="#usage">Usage</a> •
+  <a href="#notes">Notes</a> •
   <a href="#license">License</a>
 </p>
 
@@ -90,6 +91,46 @@ You can also choose to take input from STDIN and/or output to a file, e.g.:
 ```
 cat example.txt | sportrank -o output.txt
 ```
+
+## Notes
+
+### Architecture
+
+The architecture of the system follows Robert Martin's clean architecture (https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html). This means the usecase layer has no sight of the adapter layer, and the adapter layer has no sight of the driver layer. The architecture differs slightly though in that I've added an outer `wire` layer for dependency injection, and that I've put the domain logic in `pkg/league`, since it may be useful as a library for other apps.
+
+Using this architecture, one could trivially extend the app (or create a new app) to invoke the ranking code from an HTTP endpoint, or RPC method, etc. without modifying the business logic itself (in `pkg/league`).
+
+I wrote a little piece a while back around using the Clean architecture in Go on my site: https://liampulles.com/2020/09/29/notes-on-applying-the-clean-architecture-in-go.html
+
+### The wire package
+
+As mentioned, the wire package deals with dependency injection. One could use the Google wire tool to do this, but for a simple app like this I think its simple enough to wire it oneself.
+
+### Service pattern
+
+There are a handful of "services" in the system, for example `cli.Engine`. These services consist of an interface and an implementation and may depend on other service interfaces, which are injected by the wire package.
+
+This pattern is very useful for unit testing, since dependent services can be mocked (in this repo, the mocks are generated with mockery) to ensure that the service being tested is the only thing being tested.
+
+Note lines like this:
+```go
+var _ RowIOGateway = &RowIOGatewayImpl{}
+```
+This line will fail if *RowIOGatewayImpl does not implement RowIOGateway - this line thus acts as a kind of guard (which is why I use it).
+
+## Makefile
+
+I'm familiar with other sort of local repository management tools (e.g. Gradle), but I like `make` for my personal projects because it is simple to use, powerful, and widely available on Linux-like systems.
+
+Some things you might like to try:
+
+* `make view-cover`: Generate and view test coverage
+* `make pre-commit`: Update dependencies, run tests, generate code, lint, etc. - I run this before I submit code generally.
+* `make install-tools`: Install any tools needed to work on the project. This should get invoked automatically if you run a make command and a needed tool is not available (I hope).
+
+# CI/CD
+
+For personal projects, I use Travis for CI, and goreleaser for CD (in this context, meaning creating a Github release with binaries).
 
 ## License
 
