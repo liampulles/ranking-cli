@@ -118,7 +118,7 @@ var _ RowIOGateway = &RowIOGatewayImpl{}
 ```
 This line will fail if *RowIOGatewayImpl does not implement RowIOGateway - this line thus acts as a kind of guard (which is why I use it).
 
-## Makefile
+### Makefile
 
 I'm familiar with other sort of local repository management tools (e.g. Gradle), but I like `make` for my personal projects because it is simple to use, powerful, and widely available on Linux-like systems.
 
@@ -128,7 +128,7 @@ Some things you might like to try:
 * `make pre-commit`: Update dependencies, run tests, generate code, lint, etc. - I run this before I submit code generally.
 * `make install-tools`: Install any tools needed to work on the project. This should get invoked automatically if you run a make command and a needed tool is not available (I hope).
 
-# CI/CD
+### CI/CD
 
 For personal projects, I use Travis for CI, and goreleaser for CD (in this context, meaning creating a Github release with binaries).
 
