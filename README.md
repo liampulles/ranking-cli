@@ -85,7 +85,7 @@ Will produce output:
 5. Grouches, 0 pts
 ```
 
-You can also choose to take input from STDIN, and output to a file, e.g.:
+You can also choose to take input from STDIN and/or output to a file, e.g.:
 
 ```
 cat example.txt | sportrank -o output.txt

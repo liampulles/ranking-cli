@@ -6,8 +6,6 @@ import (
 	"github.com/liampulles/ranking-cli/cmd/sportrank/internal/usecase"
 )
 
-// TODO: Try wiring tool
-
 func Wire() *cli.EngineImpl {
 	usecaseSvc := usecase.NewServiceImpl()
 

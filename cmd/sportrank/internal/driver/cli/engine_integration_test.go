@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"io/ioutil"
 	"os"
+	"path"
 	"strings"
 	"testing"
 
@@ -11,8 +12,6 @@ import (
 	"github.com/liampulles/ranking-cli/cmd/sportrank/internal/wire"
 	"github.com/stretchr/testify/suite"
 )
-
-// TODO: Platform agnostic paths
 
 type EngineImplIntegrationTestSuite struct {
 	suite.Suite
@@ -29,7 +28,7 @@ func (suite *EngineImplIntegrationTestSuite) SetupTest() {
 
 func (suite *EngineImplIntegrationTestSuite) TestRun_GivenValidInput_ShouldReturnSuccess() {
 	// Setup fixture
-	argsFixture := []string{"prog.name", "-i", "testdata/valid_input.txt"}
+	argsFixture := []string{"prog.name", "-i", path.Join("testdata", "valid_input.txt")}
 	output := bytes.NewBufferString("")
 
 	// Setup expectations
@@ -51,7 +50,7 @@ func (suite *EngineImplIntegrationTestSuite) TestRun_GivenValidInput_ShouldRetur
 func (suite *EngineImplIntegrationTestSuite) TestRun_GivenValidInputViaStdin_ShouldReturnSuccess() {
 	// Setup fixture
 	argsFixture := []string{"prog.name", "-i", "-"}
-	input, err := os.Open("testdata/valid_input.txt")
+	input, err := os.Open(path.Join("testdata", "valid_input.txt"))
 	if err != nil {
 		suite.FailNow("could not read test input, please check")
 	}
@@ -75,7 +74,7 @@ func (suite *EngineImplIntegrationTestSuite) TestRun_GivenValidInputViaStdin_Sho
 
 func (suite *EngineImplIntegrationTestSuite) TestRun_GivenValidInputAndOutputViaFile_ShouldReturnSuccess() {
 	// Setup fixture
-	argsFixture := []string{"prog.name", "-i", "testdata/valid_input.txt", "-o", "testdata/temptestout.txt"}
+	argsFixture := []string{"prog.name", "-i", path.Join("testdata", "valid_input.txt"), "-o", path.Join("testdata", "temptestout.txt")}
 	// Setup expectations
 	expectedOutput := `1. Tarantulas, 6 pts
 2. Lions, 5 pts
@@ -89,14 +88,14 @@ func (suite *EngineImplIntegrationTestSuite) TestRun_GivenValidInputAndOutputVia
 
 	// Verify results
 	suite.Equal(cli.SuccessCode, actualCode)
-	outputBytes, err := ioutil.ReadFile("testdata/temptestout.txt")
+	outputBytes, err := ioutil.ReadFile(path.Join("testdata", "temptestout.txt"))
 	suite.NoError(err)
 	suite.Equal(expectedOutput, string(outputBytes))
 }
 
 func (suite *EngineImplIntegrationTestSuite) TestRun_GivenInvalidInput_ShouldReturnInvalidFormat() {
 	// Setup fixture
-	argsFixture := []string{"prog.name", "-i", "testdata/invalid_input.txt"}
+	argsFixture := []string{"prog.name", "-i", path.Join("testdata", "invalid_input.txt")}
 
 	// Exercise SUT
 	actualCode := suite.sut.Run(argsFixture, nil, os.Stdout)

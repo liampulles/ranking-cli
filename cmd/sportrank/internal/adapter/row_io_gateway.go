@@ -61,13 +61,18 @@ func (riogi *RowIOGatewayImpl) convertInput(rows []string) ([]league.GameResult,
 	return gameResults, nil
 }
 
+const (
+	rowSplitStr  = ","
+	sideSplitStr = " "
+)
+
 func (riogi *RowIOGatewayImpl) convertInputRow(row string) (league.GameResult, error) {
 	if strings.TrimSpace(row) == "" {
 		return league.GameResult{}, fmt.Errorf("empty string: %w", ErrMalformedRow)
 	}
 
 	// Split into two sides, then parse each side.
-	sides := strings.Split(row, ",")
+	sides := strings.Split(row, rowSplitStr)
 	if len(sides) != 2 {
 		return league.GameResult{}, fmt.Errorf("expected 2 sections after splitting by comma but got %d: %w",
 			len(sides), ErrMalformedRow)
@@ -94,8 +99,8 @@ func (riogi *RowIOGatewayImpl) convertInputRow(row string) (league.GameResult, e
 func (riogi *RowIOGatewayImpl) convertInputRowSide(side string) (string, int, error) {
 	cleaned := strings.TrimSpace(side)
 
-	// Since the name of the team may contain spaces, we only want to split on the LAST space.
-	lastSpaceIdx := strings.LastIndex(cleaned, " ")
+	// Since the name of the team may contain the split string, we only want to split on the LAST occurence.
+	lastSpaceIdx := strings.LastIndex(cleaned, sideSplitStr)
 	if lastSpaceIdx < 0 {
 		return "", 0, fmt.Errorf("expected a space seperating team and score but found none: %w", ErrMalformedRow)
 	}
@@ -125,7 +130,6 @@ func (riogi *RowIOGatewayImpl) convertOutputRanking(ranking league.Ranking) stri
 		ranking.Rank, ranking.Team, ranking.Points, pointSuffix)
 }
 
-// TODO: Check for string and int constants elsewhere
 const (
 	pluralFormPointSuffix   = "pts"
 	singularFormPointSuffix = "pt"
