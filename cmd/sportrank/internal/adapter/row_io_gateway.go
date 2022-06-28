@@ -99,7 +99,7 @@ func (riogi *RowIOGatewayImpl) convertInputRow(row string) (league.GameResult, e
 func (riogi *RowIOGatewayImpl) convertInputRowSide(side string) (string, int, error) {
 	cleaned := strings.TrimSpace(side)
 
-	// Since the name of the team may contain the split string, we only want to split on the LAST occurence.
+	// Since the name of the team may contain the split string, we only want to split on the LAST occurrence.
 	lastSpaceIdx := strings.LastIndex(cleaned, sideSplitStr)
 	if lastSpaceIdx < 0 {
 		return "", 0, fmt.Errorf("expected a space separating team and score but found none: %w", ErrMalformedRow)
