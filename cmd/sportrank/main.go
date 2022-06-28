@@ -3,7 +3,7 @@ package main
 import (
 	"os"
 
-	"github.com/liampulles/span-digital-ranking-cli/cmd/sportrank/internal/wire"
+	"github.com/liampulles/ranking-cli/cmd/sportrank/internal/wire"
 )
 
 func main() {

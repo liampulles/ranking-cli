@@ -3,7 +3,7 @@
 package usecase
 
 import (
-	league "github.com/liampulles/span-digital-ranking-cli/pkg/league"
+	league "github.com/liampulles/ranking-cli/pkg/league"
 	mock "github.com/stretchr/testify/mock"
 )
 

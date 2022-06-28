@@ -1,4 +1,4 @@
-module github.com/liampulles/span-digital-ranking-cli
+module github.com/liampulles/ranking-cli
 
 go 1.18
 

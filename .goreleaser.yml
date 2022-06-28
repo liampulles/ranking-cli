@@ -38,5 +38,5 @@ changelog:
 release:
   github:
     owner: liampulles
-    name: span-digital-ranking-cli
+    name: ranking-cli
   prerelease: auto

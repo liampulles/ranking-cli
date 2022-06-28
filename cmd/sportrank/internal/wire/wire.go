@@ -1,9 +1,9 @@
 package wire
 
 import (
-	"github.com/liampulles/span-digital-ranking-cli/cmd/sportrank/internal/adapter"
-	"github.com/liampulles/span-digital-ranking-cli/cmd/sportrank/internal/driver/cli"
-	"github.com/liampulles/span-digital-ranking-cli/cmd/sportrank/internal/usecase"
+	"github.com/liampulles/ranking-cli/cmd/sportrank/internal/adapter"
+	"github.com/liampulles/ranking-cli/cmd/sportrank/internal/driver/cli"
+	"github.com/liampulles/ranking-cli/cmd/sportrank/internal/usecase"
 )
 
 // TODO: Try wiring tool

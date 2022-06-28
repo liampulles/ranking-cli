@@ -7,8 +7,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/liampulles/span-digital-ranking-cli/cmd/sportrank/internal/driver/cli"
-	"github.com/liampulles/span-digital-ranking-cli/cmd/sportrank/internal/wire"
+	"github.com/liampulles/ranking-cli/cmd/sportrank/internal/driver/cli"
+	"github.com/liampulles/ranking-cli/cmd/sportrank/internal/wire"
 	"github.com/stretchr/testify/suite"
 )
 

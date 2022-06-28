@@ -9,7 +9,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/liampulles/span-digital-ranking-cli/cmd/sportrank/internal/adapter"
+	"github.com/liampulles/ranking-cli/cmd/sportrank/internal/adapter"
 )
 
 // Exit codes:

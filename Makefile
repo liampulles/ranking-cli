@@ -18,7 +18,7 @@ build:
 install: build
 	go install ./...
 inspect: build
-	golangci-lint run
+	golangci-lint run --skip-files /mock_
 update:
 	go get -u ./...
 gen-mocks:
