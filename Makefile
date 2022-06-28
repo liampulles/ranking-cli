@@ -3,11 +3,15 @@ GOBIN := $(shell go env GOBIN)
 
 # Keep this at the top so that it is default when `make` is called.
 # This is used by Travis CI.
-coverage.txt:
-	go test -race -coverprofile=coverage.txt -covermode=atomic ./...
+coverage.txt: gen-mocks
+	go test -race -coverprofile=coverage.txt.tmp -covermode=atomic ./...
+	# Remove coverage for mock files
+	cat coverage.txt.tmp | grep -v "/mock_" > coverage.txt
+	rm coverage.txt.tmp
+
 view-cover: clean coverage.txt
 	go tool cover -html=coverage.txt
-test: build
+test: build gen-mocks
 	go test ./...
 build:
 	go build ./...
@@ -17,6 +21,8 @@ inspect: build
 	golangci-lint run
 update:
 	go get -u ./...
+gen-mocks:
+	mockery --all --case underscore --inpackage
 pre-commit: update clean coverage.txt inspect
 	go mod tidy
 clean:
@@ -25,3 +31,4 @@ clean:
 # Needed tools
 install-tools:
 	curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(GOBIN) v1.42.1
+	go install github.com/vektra/mockery/v2@latest
